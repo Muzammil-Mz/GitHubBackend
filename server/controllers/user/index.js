@@ -9,7 +9,7 @@ router.get("/getallusers",async (req,res)=>{
         res.status(200).json(getAll)
     } catch (error) {
         console.log(error);
-        res.status(500).json({error})
+        res.status(500).json({msg:error})
     }
 })
 

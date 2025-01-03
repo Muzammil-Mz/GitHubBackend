@@ -8,11 +8,12 @@ import config from "config";
 import userModel from "../models/User/User.js";
 
 const router = express.Router();
+const URL = config.get("SERVER_URL");
 const JWT_SECRET = config.get("JWT_SECRET");
 
 router.post("/register", async (req, res) => {
   try {
-    const { fullName, phone, email, password } = req.body
+    const { fullName, phone, email, password } = req.body;
     const emailFind = await userModel.findOne({ email });
     if (emailFind) {
       return res.status(400).json({ msg: "mail already exists" });
@@ -26,7 +27,7 @@ router.post("/register", async (req, res) => {
       phone,
       email,
       password: hashPass,
-      userVerfiyToken: {
+      userVerifyToken: {
         email: emailToken,
         phone: phoneToken,
       },
@@ -50,18 +51,16 @@ router.post("/register", async (req, res) => {
 
     console.log(`${URL}/api/public/emailverify/${emailToken}`);
     console.log(`${URL}/api/public/phoneverify/${phoneToken}`);
-    res
-      .status(200)
-      .json({ msg: "user registered success verify email and phone" });
+    res.status(200).json({ msg: "user registered success verify email and phone" });
   } catch (error) {
     console.log(error);
     res.status(500).json({ msg: error.message });
   }
 });
 
-router.get("/emailverify/token", async (req, res) => {
+router.get("/emailverify/:token", async (req, res) => {
   try {
-    let token = req.params.body;
+    let token = req.params.token;
     let user = await userModel.findOne({ "userVerifyToken.email": token });
     if (!user) {
       return res.status(400).json({ msg: "invalid token" });
@@ -70,8 +69,7 @@ router.get("/emailverify/token", async (req, res) => {
       return res.status(400).json({ msg: "mail already verified" });
     }
 
-    user.userVerified = true;
-    user.userVerfiyToken.email = null;
+    (user.userVerified.email = true), (user.userVerifyToken.email = null);
 
     await user.save();
     res.status(200).json({ msg: "email verified" });
@@ -88,9 +86,12 @@ router.get("/phoneverify/:token", async (req, res) => {
     if (!user) {
       return res.status(400).json({ msg: "invalid token" });
     }
-    if (user.userVerfied.phone == true) {
+    if (user.userVerified.phone == true) {
       return res.status(400).json({ msg: "phone already verified" });
     }
+
+    user.userVerified.phone = true;
+    user.userVerifyToken.phone = null;
 
     await user.save();
     res.status(200).json({ msg: "phone verifed successfully" });
@@ -107,10 +108,10 @@ router.post("/login", async (req, res) => {
     if (!user) {
       return res.status(400).json({ msg: "no email found" });
     }
-    if (!user.userVerifyToken.email) {
+    if (!user.userVerified.email) {
       return res.status(400).json({ msg: "email not verified" });
     }
-    if (!user.userVerifyToken.phone) {
+    if (!user.userVerified.phone) {
       return res.status(400).json({ msg: "phone not verified" });
     }
 
