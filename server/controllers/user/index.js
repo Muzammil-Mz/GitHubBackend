@@ -51,6 +51,8 @@ router.delete("/deleteone/:id", async (req, res)=>{
 })
 
 
+
+
 router.delete("/deleteall", async (req, res)=>{
     try {
         await userModel.deleteMany({});

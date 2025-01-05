@@ -12,6 +12,19 @@ router.get("/getall",async (req,res)=>{
     }
 })
 
+router.post("/Creategist", async (req, res)=>{
+    try {
+
+        let userInp = req.body
+
+        await reposModel.create(userInp);
+        res.status(200).json({msg: `gist  created `})
+        
+    } catch (error) {
+        console.log(error);
+        res.status(200).json({msg: error})
+    }
+})
 
 router.get("/getone/:id",async (req,res)=>{
     try {

@@ -3,6 +3,21 @@ import reposModel from "../../models/Repos/Repos.js"
 
 const router=express.Router()
 
+
+router.post("/Createrepo", async (req, res)=>{
+    try {
+
+        let userInp = req.body
+
+        await reposModel.create(userInp);
+        res.status(200).json({msg: `repo  created `})
+        
+    } catch (error) {
+        console.log(error);
+        res.status(200).json({msg: error})
+    }
+})
+
 router.get("/getall",async (req,res)=>{
     try {
         let getAll=await userModel.find({})
