@@ -36,9 +36,9 @@ app.use("/api/public", publicRouter);
 app.use("/api/public", limitter);
 
 app.use(authMiddleware);
-app.use("api/private/user", userRouter);
-app.use("api/private/repos", reposRouter);
-app.use("api/private/gists", gistsRouter);
+app.use("/api/private/user", userRouter);
+app.use("/api/private/repos", reposRouter);
+app.use("/api/private/gists", gistsRouter);
 
 app.listen(port, () => {
   console.log(`Server is up and listening`);

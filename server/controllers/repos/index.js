@@ -4,7 +4,7 @@ import reposModel from "../../models/Repos/Repos.js"
 const router=express.Router()
 
 
-router.post("/Createrepo", async (req, res)=>{
+router.post("/createrepo", async (req, res)=>{
     try {
 
         let userInp = req.body
@@ -32,7 +32,7 @@ router.get("/getall",async (req,res)=>{
 router.get("/getone/:id",async (req,res)=>{
     try {
         let getOne=req.params.id
-        let get=await userModel.findOne({_id:getOne})
+        let get=await reposModel.findOne({_id:getOne})
         res.status(200).json({msg:get})
     } catch (error) {
         console.log(error);
@@ -44,7 +44,7 @@ router.put("/edit/:id", async (req, res)=>{
     try {
         let paramsId = req.params.id;
         let userInp = req.body;
-        await userModel.updateOne({_id: paramsId}, {$set: userInp});
+        await reposModel.updateOne({_id: paramsId}, {$set: userInp});
         res.status(200).json({msg: `repo updated successfully!`})
         
     } catch (error) {
@@ -56,7 +56,7 @@ router.put("/edit/:id", async (req, res)=>{
 router.delete("/deleteone/:id", async (req, res)=>{
     try {
         let paramsId = req.params.id
-        await userModel.deleteOne({_id: paramsId})
+        await reposModell.deleteOne({_id: paramsId})
         res.status(200).json({msg: `repo deleted succesfully!`})
         
     } catch (error) {
@@ -68,7 +68,7 @@ router.delete("/deleteone/:id", async (req, res)=>{
 
 router.delete("/deleteall", async (req, res)=>{
     try {
-        await userModel.deleteMany({});
+        await reposModel.deleteMany({});
         res.status(200).json({msg: `all repo deleted`})
     } catch (error) {
         console.log(error);
