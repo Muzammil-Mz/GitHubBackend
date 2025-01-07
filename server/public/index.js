@@ -13,7 +13,23 @@ const JWT_SECRET = config.get("JWT_SECRET");
 
 router.post("/register", async (req, res) => {
   try {
-    const { fullName, phone, email, password } = req.body;
+    const { user_type,
+      user_view_type,
+      site_admin,
+      fullName,
+      company,
+      blog,
+      location,
+      phone,
+      email,
+      password,
+      hireable,
+      bio,
+      twitter_username,
+      public_repos,
+      public_gists,
+      followers,
+      following, } = req.body;
     const emailFind = await userModel.findOne({ email });
     if (emailFind) {
       return res.status(400).json({ msg: "mail already exists" });
@@ -23,10 +39,23 @@ router.post("/register", async (req, res) => {
     const emailToken = Math.random().toString(36).substring(2);
     const phoneToken = Math.random().toString(36).substring(2);
     let newUser = {
+      user_type,
+      user_view_type,
+      site_admin,
       fullName,
+      company,
+      blog,
+      location,
       phone,
       email,
-      password: hashPass,
+      password,
+      hireable,
+      bio,
+      twitter_username,
+      public_repos,
+      public_gists,
+      followers,
+      following,
       userVerifyToken: {
         email: emailToken,
         phone: phoneToken,
@@ -51,7 +80,9 @@ router.post("/register", async (req, res) => {
 
     console.log(`${URL}/api/public/emailverify/${emailToken}`);
     console.log(`${URL}/api/public/phoneverify/${phoneToken}`);
-    res.status(200).json({ msg: "user registered success verify email and phone" });
+    res
+      .status(200)
+      .json({ msg: "user registered success verify email and phone" });
   } catch (error) {
     console.log(error);
     res.status(500).json({ msg: error.message });
