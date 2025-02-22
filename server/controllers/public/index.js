@@ -2,10 +2,10 @@ import express from "express";
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import sendSms from "../utils/sendSms.js";
-import sendEmail from "../utils/sendMail.js";
+import sendSms from "../../utils/sendSms.js";
+import sendEmail from "../../utils/sendMail.js";
 import config from "config";
-import userModel from "../models/User/User.js";
+import userModel from "../../models/User/User.js";
 
 const router = express.Router();
 const URL = config.get("SERVER_URL");
