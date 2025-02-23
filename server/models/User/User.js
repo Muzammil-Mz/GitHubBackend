@@ -84,7 +84,7 @@ const userSchema = new mongoose.Schema(
       },
     },
     userVerifyToken: {
-      email: {
+      email: {  
         type: String,
       },
       phone: {

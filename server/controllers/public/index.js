@@ -13,7 +13,8 @@ const JWT_SECRET = config.get("JWT_SECRET");
 
 router.post("/register", async (req, res) => {
   try {
-    const { user_type,
+    const {
+      user_type,
       user_view_type,
       site_admin,
       fullName,
@@ -29,7 +30,8 @@ router.post("/register", async (req, res) => {
       public_repos,
       public_gists,
       followers,
-      following, } = req.body;
+      following,
+    } = req.body;
     const emailFind = await userModel.findOne({ email });
     if (emailFind) {
       return res.status(400).json({ msg: "mail already exists" });
